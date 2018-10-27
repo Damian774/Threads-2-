@@ -6,34 +6,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     Handler hand;
+     int start_;
+     int stop_;
+     int step_;
+     Thread w1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView tv1 = findViewById(R.id.TV_show_thread);
-        hand = new Handler(){
+        w1 = new Thread(new Runnable() {
             @Override
-            public void handleMessage(Message msg) {
-                tv1.append((String)msg.obj);
-            }
-        };
 
-        final int start_ = 1;
-        final int stop_ = 100;
-        final int step_ = 1000;
-
-        final Thread w1 = new Thread(new Runnable() {
-            @Override
             public void run() {
                 int i ;
                 for(i=start_;i<stop_;i++){
-                    //tv1.append(" "+i);
+
                     Message msg1 = new Message();
                     msg1.obj=" "+i;
                     hand.sendMessage(msg1);
@@ -45,57 +40,54 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        Button b = findViewById(R.id.button1);
-        b.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                w1.start();
+
+
+
+
+    }
+
+    public void startThread(View view) {
+        final TextView tv1 = findViewById(R.id.TV_show_thread);
+        hand = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                tv1.append((String)msg.obj);
             }
-        });
+        };
+
+        EditText ET_start = findViewById(R.id.editText_Start);
+        EditText ET_end = findViewById(R.id.editText_End);
+        EditText ET_step = findViewById(R.id.editText_Step);
+
+        try {
+            start_ = Integer.parseInt(ET_start.getText().toString());
+            stop_ = Integer.parseInt(ET_end.getText().toString());
+            step_ = Integer.parseInt(ET_step.getText().toString());
+            w1.start();
+        }catch(NumberFormatException e){
+            e.printStackTrace();
+
+        }
+
+
 
     }
-
-    }
+}
 
 
 /*
-PD
+HW
 1.stworzyc nowe wątki
 2.button tworzy nowy wątek
 
 button clear screen i button
+
+b.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                w1.start();
+            }
+        });
  */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*

@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/editText_Start"
         android:layout_width="117dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -15,17 +15,17 @@
         android:layout_marginRight="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText6"
-        app:layout_constraintEnd_toStartOf="@+id/editText6" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/editText_End"
+        app:layout_constraintEnd_toStartOf="@+id/editText_End" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/editText_End"
         android:layout_width="118dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
-        android:hint="End"
+        android:hint="end"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="16dp" />
@@ -39,18 +39,18 @@
         tools:layout_editor_absoluteX="37dp" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/editText_Step"
         android:layout_width="117dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:hint="step"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
+        android:hint="step"
         android:inputType="textPersonName"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText5"
-        app:layout_constraintEnd_toStartOf="@+id/editText5"
+        app:layout_constraintBaseline_toBaselineOf="@+id/editText_Start"
+        app:layout_constraintEnd_toStartOf="@+id/editText_Start"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -59,6 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Start"
-        app:layout_constraintTop_toBottomOf="@+id/editText5"
+        android:onClick="startThread"
+        app:layout_constraintTop_toBottomOf="@+id/editText_Start"
         tools:layout_editor_absoluteX="147dp" />
 </android.support.constraint.ConstraintLayout>
