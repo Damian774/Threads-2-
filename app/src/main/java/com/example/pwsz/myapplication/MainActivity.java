@@ -4,10 +4,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,39 +17,51 @@ public class MainActivity extends AppCompatActivity {
      int start_;
      int stop_;
      int step_;
-     Thread w1;
+     EditText ET_start;
+     EditText ET_end;
+     EditText ET_step;
+     ArrayList<Thread> threadList = new ArrayList<>();
+    boolean stopAllThreads;
+    TextView tv1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        w1 = new Thread(new Runnable() {
-            @Override
+        ET_start = findViewById(R.id.editText_Start);
+        ET_end = findViewById(R.id.editText_End);
+        ET_step = findViewById(R.id.editText_Step);
+        tv1 = findViewById(R.id.TV_show_thread);
+    }
 
+
+
+    public void startThread(View view) {
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
             public void run() {
                 int i ;
                 for(i=start_;i<stop_;i++){
 
-                    Message msg1 = new Message();
-                    msg1.obj=" "+i;
-                    hand.sendMessage(msg1);
+                    Message msg = new Message();
+                    msg.obj=" "+i;
+                    hand.sendMessage(msg);
                     try {
                         Thread.sleep(step_);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        Log.d("INTERRUPTEDEXCEPTION","Thread interrupted");
+                        return;
                     }
                 }
+
             }
         });
+        threadList.add(thread);
 
 
-
-
-    }
-
-    public void startThread(View view) {
-        final TextView tv1 = findViewById(R.id.TV_show_thread);
         hand = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -55,22 +69,31 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        EditText ET_start = findViewById(R.id.editText_Start);
-        EditText ET_end = findViewById(R.id.editText_End);
-        EditText ET_step = findViewById(R.id.editText_Step);
+
 
         try {
             start_ = Integer.parseInt(ET_start.getText().toString());
             stop_ = Integer.parseInt(ET_end.getText().toString());
             step_ = Integer.parseInt(ET_step.getText().toString());
-            w1.start();
+            threadList.get(threadList.size()-1) .start();
         }catch(NumberFormatException e){
             e.printStackTrace();
+
 
         }
 
 
 
+    }
+
+    public void clearTV(View view) {
+        tv1.setText("");
+    }
+
+    public void stopAllThreads(View view) {
+        for (Thread t: threadList) {
+            t.interrupt();
+        }
     }
 }
 
@@ -80,7 +103,7 @@ HW
 1.stworzyc nowe wątki
 2.button tworzy nowy wątek
 
-button clear screen i button
+button clear screen i button kasuj wątki
 
 b.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
